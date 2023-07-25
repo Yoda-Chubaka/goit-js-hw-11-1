@@ -21,7 +21,7 @@ btnLoadMore.classList.add('is-hidden');
 
 searchForm.addEventListener('submit', onSubmitForm);
 
-function onSubmitForm(event) {
+async function onSubmitForm(event) {
     event.preventDefault();
 
     gallery.innerHTML = '';
@@ -63,9 +63,9 @@ function onSubmitForm(event) {
     event.currentTarget.reset();
 };
 
-function onClickLoadMore() {
+async function onClickLoadMore() {
     page += 1;
-    fetchPhoto(keyOfSearchPhoto, page, perPage)
+    await fetchPhoto(keyOfSearchPhoto, page, perPage)
         .then(data => {
             const searchResults = data.hits;
             const numberOfPage = Math.ceil(data.totalHits / perPage);
@@ -78,7 +78,6 @@ function onClickLoadMore() {
                 window.removeEventListener('scroll', showLoadMorePage);
             };
             lightbox.refresh();
-            // scrollPage();
         })
         .catch(onFetchError);
 };
@@ -98,3 +97,4 @@ function checkIfEndOfPage() {
     window.innerHeight + window.scrollY >= document.documentElement.scrollHeight
   );
 }
+
