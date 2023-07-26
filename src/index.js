@@ -39,7 +39,7 @@ async function onSubmitForm(event) {
     }
 
     fetchPhoto(keyOfSearchPhoto, page, perPage)
-        .then(data => {
+        await (data => {
             const searchResults = data.hits;
             if (data.totalHits === 0) {
                 Notify.failure('Sorry, there are no images matching your search query. Please try again.', paramsForNotify);
@@ -66,7 +66,7 @@ async function onSubmitForm(event) {
 async function onClickLoadMore() {
     page += 1;
     await fetchPhoto(keyOfSearchPhoto, page, perPage)
-        .then(data => {
+        await (data => {
             const searchResults = data.hits;
             const numberOfPage = Math.ceil(data.totalHits / perPage);
             
@@ -97,4 +97,3 @@ function checkIfEndOfPage() {
     window.innerHeight + window.scrollY >= document.documentElement.scrollHeight
   );
 }
-
