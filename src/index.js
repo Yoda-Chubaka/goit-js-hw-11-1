@@ -23,7 +23,6 @@ searchForm.addEventListener('submit', onSubmitForm);
 
 async function onSubmitForm(event) {
     event.preventDefault();
-
     gallery.innerHTML = '';
     page = 1;
     const { searchQuery } = event.currentTarget.elements;
@@ -32,41 +31,39 @@ async function onSubmitForm(event) {
         .toLowerCase()
         .split(' ')
         .join('+');
-
     if (keyOfSearchPhoto === '') {
         Notify.info('Enter your request, please!', paramsForNotify);
         return;
     }
-
-    fetchPhoto(keyOfSearchPhoto, page, perPage)
-        await (data => {
+    async function fetchPhoto() {
+        try {
+            const data = await fetchPhoto(keyOfSearchPhoto, page, perPage)
             const searchResults = data.hits;
             if (data.totalHits === 0) {
                 Notify.failure('Sorry, there are no images matching your search query. Please try again.', paramsForNotify);
             } else {
                 Notify.info(`Hooray! We found ${data.totalHits} images.`, paramsForNotify);
-                // console.log(searchResults);
                 createMarkup(searchResults);
                 lightbox.refresh();
-
             };
             if (data.totalHits > perPage) {
                 btnLoadMore.classList.remove('is-hidden');
                 window.addEventListener('scroll', showLoadMorePage);
             };
-            // scrollPage();
-        })
-        .catch(onFetchError);
+        } catch (onFetchError) {
+            console.log(onFetchError)
+        }       
+    }
 
     btnLoadMore.addEventListener('click', onClickLoadMore);
 
     event.currentTarget.reset();
 };
 
-async function onClickLoadMore() {
+function onClickLoadMore() {
     page += 1;
-    await fetchPhoto(keyOfSearchPhoto, page, perPage)
-        await (data => {
+    fetchPhoto(keyOfSearchPhoto, page, perPage)
+        .then(data => {
             const searchResults = data.hits;
             const numberOfPage = Math.ceil(data.totalHits / perPage);
             
