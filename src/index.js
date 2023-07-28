@@ -22,6 +22,8 @@ btnLoadMore.classList.add('is-hidden');
 searchForm.addEventListener('submit', onSubmitForm);
 
 async function onSubmitForm(event) {
+    const data = await fetchPhoto(keyOfSearchPhoto, page, perPage);
+    const searchResults = await response.hits;
     event.preventDefault();
     gallery.innerHTML = '';
     page = 1;
@@ -35,11 +37,12 @@ async function onSubmitForm(event) {
         Notify.info('Enter your request, please!', paramsForNotify);
         return;
     }
+
     async function fetchPhoto() {
         try {
-            const resp = await fetchPhoto(keyOfSearchPhoto, page, perPage)
-            const searchResults = resp.hits;
-            const data = await resp.json();
+            // const resp = await fetchPhoto(keyOfSearchPhoto, page, perPage)
+            // const searchResults = resp.hits;
+            // const data = await resp.json();
 
             if (data.totalHits === 0) {
                 Notify.failure('Sorry, there are no images matching your search query. Please try again.', paramsForNotify);
@@ -53,7 +56,7 @@ async function onSubmitForm(event) {
                 window.addEventListener('scroll', showLoadMorePage);
             };
         } catch (onFetchError) {
-            console.log(onFetchError)
+            console.log(onFetchError);
         }       
     }
 
@@ -62,23 +65,25 @@ async function onSubmitForm(event) {
     event.currentTarget.reset();
 };
 
-function onClickLoadMore() {
+async function onClickLoadMore() {
     page += 1;
     fetchPhoto(keyOfSearchPhoto, page, perPage)
-        .then(data => {
-            const searchResults = data.hits;
-            const numberOfPage = Math.ceil(data.totalHits / perPage);
+    onFetchError();
+    try {
+        const searchResults = data.hits;
+        const numberOfPage = Math.ceil(data.totalHits / perPage);
             
-            createMarkup(searchResults);
-            if (page === numberOfPage) {
-                btnLoadMore.classList.add('is-hidden');
-                Notify.info("We're sorry, but you've reached the end of search results.", paramsForNotify);
-                btnLoadMore.removeEventListener('click', onClickLoadMore);
-                window.removeEventListener('scroll', showLoadMorePage);
-            };
-            lightbox.refresh();
-        })
-        .catch(onFetchError);
+        createMarkup(searchResults);
+        if (page === numberOfPage) {
+            btnLoadMore.classList.add('is-hidden');
+            Notify.info("We're sorry, but you've reached the end of search results.", paramsForNotify);
+            btnLoadMore.removeEventListener('click', onClickLoadMore);
+            window.removeEventListener('scroll', showLoadMorePage);
+        };
+        lightbox.refresh();
+    } catch (onFetchError) {
+        console.log(onFetchError);
+}
 };
 
 function onFetchError() {
