@@ -40,10 +40,6 @@ async function onSubmitForm(event) {
 
     async function fetchPhoto() {
         try {
-            // const resp = await fetchPhoto(keyOfSearchPhoto, page, perPage)
-            // const searchResults = resp.hits;
-            // const data = await resp.json();
-
             if (data.totalHits === 0) {
                 Notify.failure('Sorry, there are no images matching your search query. Please try again.', paramsForNotify);
             } else {
