@@ -37,7 +37,7 @@ async function onSubmitForm(event) {
         Notify.info('Enter your request, please!', paramsForNotify);
         return;
     }
-
+    
     async function fetchPhoto() {
         try {
             if (data.totalHits === 0) {
@@ -55,7 +55,7 @@ async function onSubmitForm(event) {
             console.log(onFetchError);
         }       
     }
-
+console.log(data);
     btnLoadMore.addEventListener('click', onClickLoadMore);
 
     event.currentTarget.reset();
