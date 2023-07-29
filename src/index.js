@@ -22,9 +22,9 @@ btnLoadMore.classList.add('is-hidden');
 searchForm.addEventListener('submit', onSubmitForm);
 
 async function onSubmitForm(event) {
+    event.preventDefault();
     const data = await fetchPhoto(keyOfSearchPhoto, page, perPage);
     const searchResults = await response.hits;
-    event.preventDefault();
     gallery.innerHTML = '';
     page = 1;
     const { searchQuery } = event.currentTarget.elements;
@@ -38,7 +38,8 @@ async function onSubmitForm(event) {
         return;
     }
     
-    async function fetchPhoto() {
+    async function fetchPhoto(event) {
+        event.preventDefault();
         try {
             if (data.totalHits === 0) {
                 Notify.failure('Sorry, there are no images matching your search query. Please try again.', paramsForNotify);
@@ -97,3 +98,5 @@ function checkIfEndOfPage() {
     window.innerHeight + window.scrollY >= document.documentElement.scrollHeight
   );
 }
+
+
