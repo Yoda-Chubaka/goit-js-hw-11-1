@@ -1,19 +1,18 @@
 .gallery {
-  padding-top: 2.5rem;
-
+  // padding-top: 20px;
+  // padding-bottom: 20px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: .625rem;
+  gap: 40px;
 }
 
 .photo-gallery.container {
   padding-left: .9375rem;
   padding-right: .9375rem;
   padding-bottom: 1.5625rem;
+  padding-top: 1.5625rem;
 }
-
-
 
 .card-link {
   width: 100%;
@@ -90,18 +89,18 @@
   }
 }
 
-.info-item-likes {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
+// .info-item-likes {
+//   display: flex;
+//   flex-direction: row;
+//   align-items: center;
+// }
 
 
-.box-likes {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+// .box-likes {
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+// }
 
 button.circle {
   display: flex;

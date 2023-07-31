@@ -110,8 +110,6 @@ const onSubmitClick = async event => {
     Notify.success(`Hooray! We found ${total} images.`, notifyInit);
 
     if (pixaby.hasMorePhotos) {
-      //refs.btnLoadMore.classList.remove('is-hidden');
-
       const lastItem = document.querySelector('.gallery a:last-child');
       observer.observe(lastItem);
     }
@@ -157,7 +155,6 @@ function clearPage() {
 refs.form.addEventListener('submit', onSubmitClick);
 refs.btnLoadMore.addEventListener('click', onLoadMore);
 
-//  smooth scrolling
 function scrollPage() {
   const { height: cardHeight } = document
     .querySelector('.photo-gallery')
@@ -169,17 +166,15 @@ function scrollPage() {
   });
 }
 
-//Button smooth scroll up
+// window.addEventListener('scroll', scrollFunction);
 
-window.addEventListener('scroll', scrollFunction);
-
-function scrollFunction() {
-  if (document.body.scrollTop > 30 || document.documentElement.scrollTop > 30) {
-    refs.btnUpWrapper.style.display = 'flex';
-  } else {
-    refs.btnUpWrapper.style.display = 'none';
-  }
-}
-refs.btnUp.addEventListener('click', () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-});
+// function scrollFunction() {
+//   if (document.body.scrollTop > 40 || document.documentElement.scrollTop > 40) {
+//     refs.btnUpWrapper.style.display = 'flex';
+//   } else {
+//     refs.btnUpWrapper.style.display = 'none';
+//   }
+// }
+// refs.btnUp.addEventListener('click', () => {
+//   window.scrollTo({ top: 0, behavior: 'smooth' });
+// });
