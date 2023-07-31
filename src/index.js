@@ -24,7 +24,6 @@ searchForm.addEventListener('submit', onSubmitForm);
 async function onSubmitForm(event) {
     event.preventDefault();
     const data = await fetchPhoto(keyOfSearchPhoto, page, perPage);
-    const searchResults = await response.hits;
     gallery.innerHTML = '';
     page = 1;
     const { searchQuery } = event.currentTarget.elements;
@@ -38,8 +37,8 @@ async function onSubmitForm(event) {
         return;
     }
     
-    async function fetchPhoto(event) {
-        event.preventDefault();
+    async function fetchPhoto() {
+         const searchResults = await data.hits;
         try {
             if (data.totalHits === 0) {
                 Notify.failure('Sorry, there are no images matching your search query. Please try again.', paramsForNotify);
@@ -56,7 +55,6 @@ async function onSubmitForm(event) {
             console.log(onFetchError);
         }       
     }
-console.log(data);
     btnLoadMore.addEventListener('click', onClickLoadMore);
 
     event.currentTarget.reset();
