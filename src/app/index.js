@@ -49,11 +49,13 @@ const loadMorePhotos = async function (entries, observer) {
         if (pixaby.hasMorePhotos) {
           const lastItem = document.querySelector('.gallery a:last-child');
           observer.observe(lastItem);
-        } else
-          Notify.info(
-            "We're sorry, but you've reached the end of search results.",
-            notifyInit
-          );
+        } else {
+          refs.endCollectionText.classList.remove('is-hidden');
+          // Notify.info(
+          //   "We're sorry, but you've reached the end of search results.",
+          //   notifyInit
+          // );
+        };
 
         modalLightboxGallery.refresh();
         // scrollPage();
@@ -95,6 +97,7 @@ const onSubmitClick = async event => {
     const { hits, total } = await pixaby.getPhotos();
 
     if (hits.length === 0) {
+      refs.endCollectionText.classList.add('is-hidden');
       Notify.failure(
         `Sorry, there are no images matching your ${search_query}. Please try again.`,
         notifyInit
@@ -108,7 +111,8 @@ const onSubmitClick = async event => {
 
     pixaby.setTotal(total);
     Notify.success(`Hooray! We found ${total} images.`, notifyInit);
-
+    refs.endCollectionText.classList.add('is-hidden');
+    
     if (pixaby.hasMorePhotos) {
       const lastItem = document.querySelector('.gallery a:last-child');
       observer.observe(lastItem);
@@ -130,8 +134,9 @@ const onLoadMore = async () => {
 
   if (!pixaby.hasMorePhotos) {
     refs.btnLoadMore.classList.add('is-hidden');
-    Notify.info("We're sorry, but you've reached the end of search results.");
-    notifyInit;
+    refs.endCollectionText.classList.remove('is-hidden');
+    // Notify.info("We're sorry, but you've reached the end of search results.");
+    // notifyInit;
   }
   try {
     const { hits } = await pixaby.getPhotos();
