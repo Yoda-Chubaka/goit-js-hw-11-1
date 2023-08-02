@@ -45,16 +45,16 @@ const loadMorePhotos = async function (entries, observer) {
         const markup = createMarkup(hits);
         refs.gallery.insertAdjacentHTML('beforeend', markup);
 
-        // const showMore = pixaby.hasMorePhotos();
+        const showMore = pixaby.hasMorePhotos();
         if (pixaby.hasMorePhotos) {
           const lastItem = document.querySelector('.gallery a:last-child');
           observer.observe(lastItem);
         } else {
-          refs.endCollectionText.classList.remove('is-hidden');
-          // Notify.info(
-          //   "We're sorry, but you've reached the end of search results.",
-          //   notifyInit
-          // );
+          showMore();
+          Notify.info(
+            "We're sorry, but you've reached the end of search results.",
+            notifyInit
+          );
         };
 
         modalLightboxGallery.refresh();
@@ -97,7 +97,8 @@ const onSubmitClick = async event => {
     const { hits, total } = await pixaby.getPhotos();
 
     if (hits.length === 0) {
-      refs.endCollectionText.classList.add('is-hidden');
+      showMore();
+      // refs.endCollectionText.classList.add('is-hidden');
       Notify.failure(
         `Sorry, there are no images matching your ${search_query}. Please try again.`,
         notifyInit
@@ -130,13 +131,14 @@ const onSubmitClick = async event => {
 };
 
 const onLoadMore = async () => {
-  pixaby.incrementPage();
+  // pixaby.incrementPage();
+  pixaby.hasMorePhotos();
 
   if (!pixaby.hasMorePhotos) {
-    refs.btnLoadMore.classList.add('is-hidden');
-    refs.endCollectionText.classList.remove('is-hidden');
-    // Notify.info("We're sorry, but you've reached the end of search results.");
-    // notifyInit;
+    // refs.btnLoadMore.classList.add('is-hidden');
+    // refs.hasMorePhotos.classList.remove('is-hidden');
+    Notify.info("We're sorry, but you've reached the end of search results.");
+    notifyInit;
   }
   try {
     const { hits } = await pixaby.getPhotos();
