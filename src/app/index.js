@@ -20,7 +20,7 @@ window.addEventListener('load', () => {
   spinnerStop();
 });
 
-refs.btnLoadMore.classList.add('is-hidden');
+// refs.btnLoadMore.classList.add('is-hidden');
 
 const pixaby = new PixabayAPI();
 
@@ -152,11 +152,11 @@ const onSubmitClick = async event => {
 function clearPage() {
   pixaby.resetPage();
   refs.gallery.innerHTML = '';
-  refs.btnLoadMore.classList.add('is-hidden');
+  // refs.btnLoadMore.classList.add('is-hidden');
 }
 
 refs.form.addEventListener('submit', onSubmitClick);
-refs.btnLoadMore.addEventListener('click', onLoadMore);
+// refs.btnLoadMore.addEventListener('click', loadMorePhotos);
 
 
 
