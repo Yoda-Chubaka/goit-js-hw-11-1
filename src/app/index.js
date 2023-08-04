@@ -112,8 +112,7 @@ const onSubmitClick = async event => {
     pixaby.setTotal(total);
     Notify.success(`Hooray! We found ${total} images.`, notifyInit);
     
-    if (pixaby.hasMorePhotos) {
-      pixaby.hasMorePhotos();
+    if (pixaby.hasMorePhotos()) {
       const lastItem = document.querySelector('.gallery a:last-child');
       observer.observe(lastItem);
     } else {
