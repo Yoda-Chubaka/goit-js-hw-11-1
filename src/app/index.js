@@ -43,12 +43,14 @@ const loadMorePhotos = async function (entries, observer) {
         const markup = createMarkup(hits);
         refs.gallery.insertAdjacentHTML('beforeend', markup);
 
-        // const showMore = pixaby.hasMorePhotos();
-        if (pixaby.hasMorePhotos) {
+        if (pixaby.hasMorePhotos()) {
+          // showMore();
           const lastItem = document.querySelector('.gallery a:last-child');
           observer.observe(lastItem);
         } else {
           // showMore();
+          const lastItem = document.querySelector('.gallery a:last-child');
+          observer.unobserve(lastItem);
           Notify.info(
             "We're sorry, but you've reached the end of search results.",
             notifyInit
@@ -111,8 +113,15 @@ const onSubmitClick = async event => {
     Notify.success(`Hooray! We found ${total} images.`, notifyInit);
     
     if (pixaby.hasMorePhotos) {
+      pixaby.hasMorePhotos();
       const lastItem = document.querySelector('.gallery a:last-child');
       observer.observe(lastItem);
+    } else {
+      observer.unobserve(lastItem);
+          Notify.info(
+            "We're sorry, but you've reached the end of search results.",
+            notifyInit
+          )
     }
 
     modalLightboxGallery.refresh();
@@ -133,6 +142,7 @@ const onSubmitClick = async event => {
 //   if (!pixaby.hasMorePhotos) {
 //     // refs.btnLoadMore.classList.add('is-hidden');
 //     // refs.hasMorePhotos.classList.remove('is-hidden');
+//     observer.unobserve(lastItem);
 //     Notify.info("We're sorry, but you've reached the end of search results.");
 //     notifyInit;
 //   }
@@ -156,7 +166,7 @@ function clearPage() {
 }
 
 refs.form.addEventListener('submit', onSubmitClick);
-// refs.btnLoadMore.addEventListener('click', loadMorePhotos);
+refs.btnLoadMore.addEventListener('click', loadMorePhotos);
 
 
 
